@@ -1,5 +1,5 @@
 name: "RunOnceEx"
-description: "Registry keys used to achieve persistence by executing a binary or a DLL when a user logs on. RunOnceEx registry entry is not present by default on the Windows system"
+description: "Registry keys used to achieve persistence by executing a binary or a DLL when a user logs on. RunOnceEx registry entry is not present by default on the Windows system."
 tags:
   - persistence
   - execution
@@ -8,10 +8,10 @@ mitre_ids:
 keys:
   - "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx"
 use_cases:
-  - title: "Execute a DLL on user login"
+  - title: "Execute a binary on user login"
     description: "Adds a value to the RunOnceEx key to execute a binary on user login."
     code: |
-      reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx /f
+      reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx" /f
       reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001" /f
       reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001" /v "Line1" /t REG_SZ /d "||c:\windows\system32\notepad.exe" /f
 resources:
