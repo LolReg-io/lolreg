@@ -1,0 +1,22 @@
+name: "RunOnce"
+description: "Registry keys used to achieve persistence by executing a program when a user logs on."
+tags:
+  - persistence
+  - execution
+mitre_ids:
+  - T1547.001
+keys:
+  - "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce"
+  - "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce"
+use_cases:
+  - title: "Execute a binary on user login"
+    description: "Adds a value to the RunOnce key to execute a payload on user login."
+    code: |
+      reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "MyBackdoor" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f
+  - title: "Powershell script execution on user login"
+    description: "Executes a PowerShell script on user login."
+    code: |
+      reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "Updater" /t REG_SZ /d "powershell.exe -WindowStyle Hidden -File C:\Users\Public\update.ps1" /f
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys
+  - link: https://learn.microsoft.com/en-us/troubleshoot/windows-client/shell-experience/standard-user-cannot-run-commnad-via-runonce

