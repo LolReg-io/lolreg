@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Copy, Check, Terminal, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Terminal, AlertTriangle, LibraryBig } from 'lucide-react';
 import { getKeyById } from '../utils/dataLoader';
 
 const Detail = () => {
@@ -71,6 +71,28 @@ const Detail = () => {
                         </div>
                     ))}
                 </div>
+            </div>
+
+            <div className="space-y-6">
+                <h2 className="text-xl font-semibold text-[var(--text-primary)] flex items-center">
+                    <LibraryBig className="w-5 h-5 mr-2 text-[var(--accent-primary)]" />
+                    Resources
+                </h2>
+                <ul className="space-y-2 text-sm">
+                    {keyData.resources && keyData.resources.map((k, idx) => (
+                        <li key={idx} className="flex items-center group">
+                            <span className="mr-3 text-[var(--text-secondary)]">•</span>
+                            <a
+                                href={k.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:underline transition-colors"
+                            >
+                                {k}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
             </div>
 
             <div className="space-y-6">

@@ -17,3 +17,5 @@ use_cases:
     description: "Executes a powershell script on login."
     code: |
       reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "Updater" /t REG_SZ /d "powershell.exe -WindowStyle Hidden -File C:\Users\Public\update.ps1" /f
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys
