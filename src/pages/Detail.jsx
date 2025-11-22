@@ -45,7 +45,7 @@ const Detail = () => {
                         </span>
                     ))}
                     {keyData.mitre_ids && keyData.mitre_ids.map(mid => (
-                        <span key={mid} className="px-3 py-1 rounded-full text-sm font-medium bg-red-900/20 text-red-400 border border-red-900/30">
+                        <span key={mid} className="px-3 py-1 rounded-full text-sm font-medium bg-[var(--bg-tertiary)] text-[var(--text-primary)] border border-[var(--border-color)]">
                             {mid}
                         </span>
                     ))}
@@ -53,8 +53,8 @@ const Detail = () => {
             </div>
 
             <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-[var(--text-primary)] flex items-center">
-                    <Terminal className="w-5 h-5 mr-2 text-[var(--accent-primary)]" />
+                <h2 className="flex items-center text-2xl font-bold text-[var(--text-primary)] gap-x-4">
+                    <Terminal className="w-8 h-8 text-[var(--accent-primary)] flex-shrink-0" />
                     Registry Paths
                 </h2>
                 <div className="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border-color)] overflow-hidden">
@@ -74,8 +74,8 @@ const Detail = () => {
             </div>
 
             <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-[var(--text-primary)] flex items-center">
-                    <LibraryBig className="w-5 h-5 mr-2 text-[var(--accent-primary)]" />
+                <h2 className="flex items-center text-2xl font-bold text-[var(--text-primary)] gap-x-4">
+                    <LibraryBig className="w-8 h-8 text-[var(--accent-primary)] flex-shrink-0" />
                     Resources
                 </h2>
                 <ul className="space-y-2 text-sm">
@@ -96,9 +96,9 @@ const Detail = () => {
             </div>
 
             <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-[var(--text-primary)] flex items-center">
-                    <AlertTriangle className="w-5 h-5 mr-2 text-[var(--danger)]" />
-                    Malicious Use Cases
+                <h2 className="flex items-center text-2xl font-bold text-[var(--text-primary)] gap-x-4">
+                    <AlertTriangle className="w-8 h-8 text-[var(--accent-primary)] flex-shrink-0" />
+                    Usage Examples
                 </h2>
                 <div className="grid gap-6">
                     {keyData.use_cases && keyData.use_cases.map((useCase, idx) => (
@@ -108,7 +108,7 @@ const Detail = () => {
                                 <p className="text-sm text-[var(--text-secondary)] mt-1">{useCase.description}</p>
                             </div>
                             <div className="p-4 bg-[var(--code-bg)] relative group">
-                                <pre className="text-sm font-mono text-gray-300 overflow-x-auto whitespace-pre-wrap break-all p-2">
+                                <pre className="text-sm font-mono text-[var(--code-text)] overflow-x-auto whitespace-pre-wrap break-all p-2">
                                     {useCase.code}
                                 </pre>
                                 <button
