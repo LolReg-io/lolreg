@@ -13,7 +13,13 @@ const Layout = ({ children }) => {
                             LOL<span className="text-[var(--accent-primary)]">Reg</span>
                         </span>
                     </Link>
-                    <nav>
+                    <nav className="flex items-center space-x-6">
+                        <Link
+                            to="/contribute"
+                            className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                        >
+                            Contribute
+                        </Link>
                         <a
                             href="https://github.com/gtfobins/gtfobins.github.io"
                             target="_blank"
