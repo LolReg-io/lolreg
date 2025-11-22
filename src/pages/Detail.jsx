@@ -88,7 +88,7 @@ const Detail = () => {
                                 rel="noopener noreferrer"
                                 className="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:underline transition-colors"
                             >
-                                {k}
+                                {k.link}
                             </a>
                         </li>
                     ))}
