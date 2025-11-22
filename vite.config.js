@@ -8,6 +8,6 @@ export default defineConfig({
         react(),
         ViteYaml(),
     ],
-    base: '/lolreg/',
+    base: '/',
 })
 
