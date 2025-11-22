@@ -1,0 +1,21 @@
+name: "RunOnceEx"
+description: "Registry keys used to achieve persistence by executing a binary or a DLL when a user logs on. RunOnceEx registry entry is not present by default on the Windows system"
+tags:
+  - persistence
+  - execution
+mitre_ids:
+  - T1547.001
+keys:
+  - "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx"
+use_cases:
+  - title: "Execute a DLL on user login"
+    description: "Adds a value to the RunOnceEx key to execute a binary on user login."
+    code: |
+      reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx /f
+      reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001" /f
+      reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001" /v "Line1" /t REG_SZ /d "||c:\windows\system32\notepad.exe" /f
+resources:
+  - link: https://support.microsoft.com/en-us/topic/description-of-the-runonceex-registry-key-b85fcbfa-281f-96cb-defc-27ef4ab38142
+  - link: https://learn.microsoft.com/en-us/troubleshoot/windows-client/shell-experience/standard-user-cannot-run-commnad-via-runonce
+  - link: https://helparchive.huntertur.net/document/106542
+  - link: https://oddvar.moe/2018/03/21/persistence-using-runonceex-hidden-from-autoruns-exe/

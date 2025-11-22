@@ -1,4 +1,4 @@
-name: "Run Keys"
+name: "Run"
 description: "Registry keys used to achieve persistence by executing a program when a user logs on."
 tags:
   - persistence
@@ -10,10 +10,10 @@ keys:
   - "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 use_cases:
   - title: "Execute a binary on user login"
-    description: "Adds a value to the Run key to execute a payload on login."
+    description: "Adds a value to the Run key to execute a payload on user login."
     code: |
       reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "MyBackdoor" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f
-  - title: "Powershell Persistence"
+  - title: "Powershell script execution on user login"
     description: "Executes a PowerShell script on user login."
     code: |
       reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "Updater" /t REG_SZ /d "powershell.exe -WindowStyle Hidden -File C:\Users\Public\update.ps1" /f
