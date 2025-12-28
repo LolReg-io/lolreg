@@ -13,6 +13,12 @@ const Detail = () => {
         setKeyData(data);
     }, [id]);
 
+    useEffect(() => {
+        if (keyData) {
+            document.title = `${keyData.name} | LOLReg`;
+        }
+    }, [keyData]);
+
     if (!keyData) {
         return (
             <div className="flex items-center justify-center min-h-[50vh]">

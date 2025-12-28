@@ -29,6 +29,18 @@ const Layout = ({ children }) => {
             </span>
           </Link>
           <nav className="flex items-center space-x-6">
+            <Link
+              to="/tree"
+              className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+            >
+              Tree
+            </Link>
+            <Link
+              to="/contribute"
+              className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+            >
+              Contribute
+            </Link>
             <label htmlFor="dark-mode-toggle" className="flex items-center cursor-pointer select-none space-x-3">
               <span className="emoji-toggle-icon select-none">
                 <Sun size={18} color="var(--text-primary)" />

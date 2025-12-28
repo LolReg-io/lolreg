@@ -1,0 +1,17 @@
+name: "SessionInformation"
+description: "Registry key tracking session statistics including the count of programs executed during the current user session. Useful for forensic analysis to understand user activity patterns."
+tags:
+  - forensics
+keys:
+  - 'HKCU\SessionInformation'
+resources:
+  - link: https://www.sans.org/blog/opensourcesoftware-windows-forensics/
+use_cases:
+  - title: "Query program execution count"
+    description: "Retrieves the ProgramCount value showing how many programs were executed in the current session."
+    code: |
+      reg query "HKCU\SessionInformation" /v ProgramCount
+  - title: "Monitor session activity"
+    description: "PowerShell script to monitor session information values for forensic baseline."
+    code: |
+      powershell -c "Get-ItemProperty 'HKCU:\SessionInformation' | Select-Object *"

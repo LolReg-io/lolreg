@@ -1,0 +1,28 @@
+name: "Installed Software (Uninstall)"
+description: "Registry keys listing installed applications with version info, install dates, and uninstall commands. Useful for software inventory, timeline analysis, and detecting unwanted applications."
+tags:
+  - forensics
+  - discovery
+keys:
+  - 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall'
+  - 'HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall'
+  - 'HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key
+use_cases:
+  - title: "List installed software"
+    description: "Enumerates all installed applications with display names and versions."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" /s | findstr /i "DisplayName DisplayVersion"
+  - title: "Find software install dates"
+    description: "Retrieves installation dates for timeline reconstruction."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" /s | findstr /i "InstallDate"
+  - title: "Check 32-bit applications on 64-bit system"
+    description: "Lists 32-bit applications installed on a 64-bit Windows system."
+    code: |
+      reg query "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall" /s | findstr /i "DisplayName"
+  - title: "Find user-installed software"
+    description: "Lists applications installed per-user (without admin rights)."
+    code: |
+      reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall" /s

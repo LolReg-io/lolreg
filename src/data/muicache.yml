@@ -1,0 +1,23 @@
+name: "MuiCache"
+description: "Registry key caching application display names (Multilingual User Interface). Records executables that have been run, useful for program execution forensics."
+tags:
+  - forensics
+  - execution
+keys:
+  - 'HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache'
+  - 'HKCU\Software\Microsoft\Windows\ShellNoRoam\MUICache'
+resources:
+  - link: https://www.sans.org/blog/muicache-digital-forensics/
+use_cases:
+  - title: "View executed programs"
+    description: "Lists programs that have been executed based on cached display names."
+    code: |
+      reg query "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache"
+  - title: "Search for specific executable"
+    description: "Checks if a specific program has been run on the system."
+    code: |
+      reg query "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache" | findstr /i "payload.exe"
+  - title: "View legacy MuiCache (XP/2003)"
+    description: "Checks the legacy MuiCache location for older systems."
+    code: |
+      reg query "HKCU\Software\Microsoft\Windows\ShellNoRoam\MUICache"

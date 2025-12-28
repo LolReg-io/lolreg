@@ -1,0 +1,33 @@
+name: "Software Classes (HKCR)"
+description: "Registry keys containing file associations, COM object registrations, and shell extensions. Heavily abused for COM hijacking, file association hijacking, and persistence through shell extensions."
+tags:
+  - persistence
+  - defense_evasion
+mitre_ids:
+  - T1546.015
+  - T1546.001
+keys:
+  - 'HKLM\SOFTWARE\Classes'
+  - 'HKCU\SOFTWARE\Classes'
+  - 'HKCR\CLSID'
+  - 'HKCU\SOFTWARE\Classes\CLSID'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/com/clsid-key-hklm
+  - link: https://attack.mitre.org/techniques/T1546/015/
+use_cases:
+  - title: "COM Hijacking via InProcServer32"
+    description: "Hijacks a frequently loaded COM object by replacing its InProcServer32 DLL path with a malicious DLL."
+    code: |
+      reg add "HKCU\SOFTWARE\Classes\CLSID\{GUID}\InProcServer32" /ve /t REG_SZ /d "C:\Windows\Temp\malicious.dll" /f
+  - title: "File association hijacking"
+    description: "Changes the default handler for a file extension to execute a malicious binary."
+    code: |
+      reg add "HKCU\SOFTWARE\Classes\.txt\shell\open\command" /ve /t REG_SZ /d "C:\Windows\Temp\payload.exe %1" /f
+  - title: "Shell extension persistence"
+    description: "Registers a malicious shell extension that loads when Explorer starts."
+    code: |
+      reg add "HKCU\SOFTWARE\Classes\*\shellex\ContextMenuHandlers\MaliciousHandler" /ve /t REG_SZ /d "{malicious-CLSID}" /f
+  - title: "ProgID hijacking"
+    description: "Hijacks a ProgID to redirect application launches to a malicious binary."
+    code: |
+      reg add "HKCU\SOFTWARE\Classes\http\shell\open\command" /ve /t REG_SZ /d "C:\Windows\Temp\browser.exe %1" /f

@@ -1,0 +1,25 @@
+name: "KnownDLLs"
+description: "Registry key listing DLLs that Windows pre-loads from the System32 directory. Can be abused to force-load malicious DLLs or for DLL search order hijacking defense."
+tags:
+  - persistence
+  - defense_evasion
+mitre_ids:
+  - T1574.001
+keys:
+  - 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order
+  - link: https://itm4n.github.io/windows-dll-hijacking-clarified/
+use_cases:
+  - title: "Add DLL to KnownDLLs for protection"
+    description: "Adding a DLL to KnownDLLs forces Windows to load it from System32, preventing DLL hijacking."
+    code: |
+      reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs" /v "mydll" /t REG_SZ /d "mydll.dll" /f
+  - title: "Enumerate KnownDLLs"
+    description: "List all DLLs in the KnownDLLs registry to identify potential missing entries."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs"
+  - title: "Check for missing KnownDLLs (hijacking opportunity)"
+    description: "Identify DLLs that could be hijacked by comparing loaded DLLs against KnownDLLs."
+    code: |
+      powershell -c "Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs' | Select-Object *"

@@ -11,6 +11,17 @@ const Home = () => {
     useEffect(() => {
         const data = getAllKeys();
         setKeys(data);
+        document.title = 'LOLReg - Living Off The Land Registry';
+
+        const handleKeyDown = (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('search-input')?.focus();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
     const allTags = [...new Set(keys.flatMap(k => k.tags || []))];
@@ -42,20 +53,26 @@ const Home = () => {
                     <Search className="h-5 w-5 text-[var(--text-secondary)]" />
                 </div>
                 <input
+                    id="search-input"
                     type="text"
-                    className="block w-full pl-10 pr-3 py-3 border border-[var(--border-color)] rounded-lg leading-5 bg-[var(--bg-tertiary)] text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] sm:text-sm transition-colors"
+                    className="block w-full pl-10 pr-24 py-3 border border-[var(--border-color)] rounded-lg leading-5 bg-[var(--bg-tertiary)] text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] sm:text-sm transition-colors"
                     placeholder="Search by key path, name, or description..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span className="text-xs text-[var(--text-secondary)] border border-[var(--border-color)] rounded px-1.5 py-0.5">
+                        ⌘K
+                    </span>
+                </div>
             </div>
 
             <div className="flex flex-wrap justify-center gap-2">
                 <button
                     onClick={() => setSelectedTag(null)}
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${!selectedTag
-                            ? 'bg-[var(--accent-primary)] text-white'
-                            : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--border-color)]'
+                        ? 'bg-[var(--accent-primary)] text-white'
+                        : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--border-color)]'
                         }`}
                 >
                     All
@@ -65,8 +82,8 @@ const Home = () => {
                         key={tag}
                         onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
                         className={`px-3 py-1 rounded-full text-sm font-medium transition-colors flex items-center space-x-1 ${selectedTag === tag
-                                ? 'bg-[var(--accent-primary)] text-white'
-                                : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--border-color)]'
+                            ? 'bg-[var(--accent-primary)] text-white'
+                            : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--border-color)]'
                             }`}
                     >
                         <Tag className="w-3 h-3" />

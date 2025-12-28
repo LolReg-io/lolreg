@@ -1,0 +1,25 @@
+name: "ProfileList"
+description: "Registry key containing a list of all user profiles on the system. Useful for user enumeration, identifying remote or domain logons, and discovering deleted user accounts."
+tags:
+  - forensics
+  - discovery
+mitre_ids:
+  - T1087.001
+keys:
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/shell/usersandgroups
+  - link: https://www.forensicmag.com/article/2012/06/windows-7-registry-forensics-part-5
+use_cases:
+  - title: "Enumerate user profiles"
+    description: "Lists all user SIDs and their profile paths to identify users on the system."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList" /s
+  - title: "Identify domain users"
+    description: "Domain user profiles have SIDs starting with S-1-5-21 and ProfileImagePath pointing to domain username folders."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList" /s | findstr /i "ProfileImagePath"
+  - title: "Detect deleted user remnants"
+    description: "Orphaned ProfileList entries may indicate deleted users whose profiles were not fully cleaned up."
+    code: |
+      powershell -c "Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\*' | Select-Object PSChildName, ProfileImagePath"

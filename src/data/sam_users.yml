@@ -1,0 +1,27 @@
+name: "SAM User Accounts"
+description: "Registry keys in the SAM hive containing local user account information including RIDs, password hashes (encrypted), and account metadata. Critical for user enumeration and forensic analysis."
+tags:
+  - forensics
+  - credential_access
+mitre_ids:
+  - T1003.002
+keys:
+  - 'HKLM\SAM\SAM\Domains\Account\Users'
+  - 'HKLM\SAM\SAM\Domains\Account\Users\Names'
+  - 'HKLM\SAM\SAM\Domains\Builtin\Aliases'
+resources:
+  - link: https://www.sans.org/blog/sams-an-insider-threat-windows-sam-files/
+  - link: https://attack.mitre.org/techniques/T1003/002/
+use_cases:
+  - title: "Enumerate local users via registry"
+    description: "Lists user RIDs from the SAM registry (requires SYSTEM privileges)."
+    code: |
+      reg query "HKLM\SAM\SAM\Domains\Account\Users\Names"
+  - title: "Extract SAM with reg save"
+    description: "Saves the SAM hive for offline credential extraction."
+    code: |
+      reg save HKLM\SAM C:\Windows\Temp\sam.save
+  - title: "Check for deleted user remnants"
+    description: "Identifies orphaned user entries that may indicate deleted accounts."
+    code: |
+      reg query "HKLM\SAM\SAM\Domains\Account\Users" /s

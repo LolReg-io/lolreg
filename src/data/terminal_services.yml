@@ -1,0 +1,25 @@
+name: "Terminal Services Client (RDP)"
+description: "Registry keys tracking Remote Desktop connections made from this system. Records server addresses, usernames, and connection timestamps useful for lateral movement forensics."
+tags:
+  - forensics
+  - lateral_movement
+keys:
+  - 'HKCU\Software\Microsoft\Terminal Server Client\Default'
+  - 'HKCU\Software\Microsoft\Terminal Server Client\Servers'
+  - 'HKCU\Software\Microsoft\Terminal Server Client\LocalDevices'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/remote-desktop-allow-access
+  - link: https://www.sans.org/blog/rdp-event-log-forensics/
+use_cases:
+  - title: "List RDP connection history"
+    description: "Shows servers this system has connected to via RDP."
+    code: |
+      reg query "HKCU\Software\Microsoft\Terminal Server Client\Servers" /s
+  - title: "View default RDP servers"
+    description: "Lists most recently used RDP server addresses."
+    code: |
+      reg query "HKCU\Software\Microsoft\Terminal Server Client\Default"
+  - title: "Check saved RDP usernames"
+    description: "Identifies usernames saved for RDP connections."
+    code: |
+      reg query "HKCU\Software\Microsoft\Terminal Server Client\Servers" /s | findstr /i "UsernameHint"

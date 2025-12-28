@@ -1,0 +1,22 @@
+name: "Windows Search History"
+description: "Registry keys tracking search queries made through Windows Explorer and legacy Search Assistant. Reveals user search patterns and potentially sensitive query terms."
+tags:
+  - forensics
+keys:
+  - 'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery'
+  - 'HKCU\Software\Microsoft\Search Assistant\ACMru'
+resources:
+  - link: https://www.sans.org/blog/windows-forensics-search-history/
+use_cases:
+  - title: "View Explorer search history"
+    description: "Lists search terms typed in Windows Explorer search box."
+    code: |
+      reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery"
+  - title: "View legacy Search Assistant queries"
+    description: "Shows searches from Windows XP/2003 Search Assistant."
+    code: |
+      reg query "HKCU\Software\Microsoft\Search Assistant\ACMru" /s
+  - title: "Clear search history"
+    description: "Removes search history entries (anti-forensics)."
+    code: |
+      reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery" /f

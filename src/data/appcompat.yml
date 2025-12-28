@@ -1,0 +1,30 @@
+name: "Application Compatibility (AppCompat)"
+description: "Registry keys for the Application Compatibility infrastructure including shim databases. Can be abused to inject DLLs, redirect executables, or bypass security controls via compatibility shims."
+tags:
+  - persistence
+  - defense_evasion
+  - forensics
+mitre_ids:
+  - T1546.011
+keys:
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB'
+  - 'HKCU\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Store'
+  - 'HKCU\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Persisted'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/devnotes/application-compatibility-database
+  - link: https://attack.mitre.org/techniques/T1546/011/
+use_cases:
+  - title: "Install malicious shim database"
+    description: "Installs a custom shim database that can inject DLLs or redirect executables."
+    code: |
+      sdbinst.exe C:\Windows\Temp\malicious.sdb
+  - title: "Query installed shim databases"
+    description: "Lists all installed application compatibility databases."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB" /s
+  - title: "Check program compatibility settings"
+    description: "Views programs with compatibility flags set by PCA."
+    code: |
+      reg query "HKCU\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Store" /s
