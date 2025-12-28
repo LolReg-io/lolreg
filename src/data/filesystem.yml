@@ -1,0 +1,23 @@
+name: "FileSystem Configuration"
+description: "Registry keys controlling NTFS and file system behavior. Settings like NtfsDisableLastAccessUpdate affect forensic artifacts, while others can be abused to hide malicious activity."
+tags:
+  - forensics
+  - defense_evasion
+keys:
+  - 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-behavior
+  - link: https://www.sans.org/blog/digital-forensics-detecting-timestamp-manipulation/
+use_cases:
+  - title: "Disable Last Access timestamp updates"
+    description: "Disables updating file last access times, reducing forensic evidence but improving performance."
+    code: |
+      reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v "NtfsDisableLastAccessUpdate" /t REG_DWORD /d 1 /f
+  - title: "Check 8.3 filename creation status"
+    description: "8.3 short names can reveal original filenames even after renaming."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v "NtfsDisable8dot3NameCreation"
+  - title: "Query all filesystem settings"
+    description: "Lists all filesystem configuration values for forensic analysis."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem"

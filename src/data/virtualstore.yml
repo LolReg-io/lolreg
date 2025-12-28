@@ -1,0 +1,24 @@
+name: "VirtualStore (UAC Virtualization)"
+description: "Registry location where writes to protected areas are redirected for non-elevated applications due to UAC. Can hide malicious registry modifications from administrators viewing the real keys."
+tags:
+  - defense_evasion
+  - forensics
+keys:
+  - 'HKCU\Software\Classes\VirtualStore\Machine\Software'
+  - 'HKU\<SID>_Classes\VirtualStore\Machine\Software'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/w8cookbook/user-account-control--uac-
+  - link: https://www.sans.org/blog/uac-virtualization-forensics/
+use_cases:
+  - title: "Check for virtualized registry writes"
+    description: "Lists registry values that were virtualized due to UAC redirection."
+    code: |
+      reg query "HKCU\Software\Classes\VirtualStore\Machine\Software" /s
+  - title: "Find hidden Run key entries"
+    description: "Malware may write to HKLM Run but end up in VirtualStore if not elevated."
+    code: |
+      reg query "HKCU\Software\Classes\VirtualStore\Machine\Software\Microsoft\Windows\CurrentVersion\Run"
+  - title: "Compare real vs virtualized keys"
+    description: "Compares actual HKLM values with virtualized copies."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" && reg query "HKCU\Software\Classes\VirtualStore\Machine\Software\Microsoft\Windows\CurrentVersion\Run"

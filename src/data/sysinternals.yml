@@ -1,0 +1,29 @@
+name: "SysInternals Tools"
+description: "Registry keys created when SysInternals tools are executed, indicating EULA acceptance. Presence of these keys indicates tool usage, useful for forensic detection of administrative/attack tools."
+tags:
+  - forensics
+  - execution
+keys:
+  - 'HKCU\Software\Sysinternals\PsExec'
+  - 'HKCU\Software\Sysinternals\PsLoggedOn'
+  - 'HKCU\Software\Sysinternals\PsList'
+  - 'HKCU\Software\Sysinternals\Strings'
+  - 'HKCU\Software\Sysinternals\Autoruns'
+  - 'HKCU\Software\Sysinternals\Process Monitor'
+  - 'HKCU\Software\Sysinternals\Process Explorer'
+resources:
+  - link: https://learn.microsoft.com/en-us/sysinternals/
+  - link: https://www.sans.org/blog/psexec-behavior-forensics/
+use_cases:
+  - title: "Detect PsExec usage"
+    description: "Checks if PsExec has been run on this system (EULA acceptance key)."
+    code: |
+      reg query "HKCU\Software\Sysinternals\PsExec"
+  - title: "Enumerate all SysInternals tools used"
+    description: "Lists all SysInternals tools that have been executed by the current user."
+    code: |
+      reg query "HKCU\Software\Sysinternals"
+  - title: "Check tool execution timestamps"
+    description: "The LastWrite time of each key correlates to first tool execution."
+    code: |
+      powershell -c "Get-ChildItem 'HKCU:\Software\Sysinternals' | Select-Object Name, @{N='LastWriteTime';E={(Get-Item $_.PSPath).GetValue('EulaAccepted')}}"

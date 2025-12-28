@@ -1,0 +1,27 @@
+name: "USB Device History"
+description: "Registry keys tracking USB device connection history. Contains device identifiers, serial numbers, and timestamps useful for forensic analysis of removable storage usage."
+tags:
+  - forensics
+  - discovery
+keys:
+  - 'HKLM\SYSTEM\CurrentControlSet\Enum\USBSTOR'
+  - 'HKLM\SYSTEM\CurrentControlSet\Enum\USB'
+  - 'HKLM\SYSTEM\MountedDevices'
+  - 'HKLM\SYSTEM\CurrentControlSet\Control\DeviceClasses'
+  - 'HKLM\SOFTWARE\Microsoft\Windows Portable Devices\Devices'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings
+  - link: https://www.sans.org/blog/usb-device-forensics-tracking-connected-usb-devices/
+use_cases:
+  - title: "Enumerate connected USB storage devices"
+    description: "Lists all USB storage devices that have been connected to the system."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Enum\USBSTOR" /s
+  - title: "Find USB device serial numbers"
+    description: "Extracts serial numbers and device identifiers for USB forensics."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Enum\USB" /s | findstr /i "Serial"
+  - title: "Check mounted device volumes"
+    description: "Lists drive letters assigned to removable devices."
+    code: |
+      reg query "HKLM\SYSTEM\MountedDevices"

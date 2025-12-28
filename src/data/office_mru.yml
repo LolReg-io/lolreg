@@ -1,0 +1,27 @@
+name: "Office MRU (Most Recently Used)"
+description: "Registry keys tracking files opened in Microsoft Office applications. Contains file paths, timestamps, and trusted document status useful for forensic analysis of user document activity."
+tags:
+  - forensics
+keys:
+  - 'HKCU\Software\Microsoft\Office\16.0\Word\File MRU'
+  - 'HKCU\Software\Microsoft\Office\16.0\Excel\File MRU'
+  - 'HKCU\Software\Microsoft\Office\16.0\PowerPoint\File MRU'
+  - 'HKCU\Software\Microsoft\Office\16.0\Word\Security\Trusted Documents\TrustRecords'
+  - 'HKCU\Software\Microsoft\Office\15.0\Word\User MRU'
+  - 'HKCU\Software\Microsoft\Office\14.0\Word\File MRU'
+resources:
+  - link: https://learn.microsoft.com/en-us/office/troubleshoot/office/clear-most-recently-used-list
+  - link: https://www.sans.org/blog/office-document-forensics/
+use_cases:
+  - title: "List recently opened Word documents"
+    description: "Shows files recently opened in Microsoft Word."
+    code: |
+      reg query "HKCU\Software\Microsoft\Office\16.0\Word\File MRU" /s
+  - title: "Find trusted documents"
+    description: "Lists documents where user clicked 'Enable Editing' (macro-enabled trust)."
+    code: |
+      reg query "HKCU\Software\Microsoft\Office\16.0\Word\Security\Trusted Documents\TrustRecords"
+  - title: "Enumerate all Office MRU entries"
+    description: "Searches for MRU entries across all Office versions and applications."
+    code: |
+      reg query "HKCU\Software\Microsoft\Office" /s | findstr /i "File MRU"

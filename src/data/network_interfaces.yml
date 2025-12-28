@@ -1,0 +1,27 @@
+name: "Network Interfaces"
+description: "Registry keys containing network adapter configuration, IP addresses, DHCP settings, and wireless network history. Critical for forensic analysis of network activity and lateral movement."
+tags:
+  - forensics
+  - discovery
+keys:
+  - 'HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkCards'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures'
+  - 'HKLM\SOFTWARE\Microsoft\WZCSVC\Parameters\Interfaces'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows-server/networking/technologies/network-subsystem/net-sub-performance-tuning-nics
+  - link: https://www.sans.org/blog/windows-registry-analysis-tracking-lateral-movement/
+use_cases:
+  - title: "List network interfaces and IPs"
+    description: "Enumerates all network interfaces with their configured IP addresses."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" /s
+  - title: "View connected wireless networks"
+    description: "Lists wireless networks the system has connected to with timestamps."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles" /s
+  - title: "Identify network adapter details"
+    description: "Gets network card descriptions and service names."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkCards" /s

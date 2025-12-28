@@ -1,0 +1,27 @@
+name: "Memory Management"
+description: "Registry keys controlling memory management settings including Prefetch, pagefile clearing, and other system memory configurations. Can be abused to disable forensic artifacts or evade detection."
+tags:
+  - forensics
+  - defense_evasion
+mitre_ids:
+  - T1070.004
+  - T1562.001
+keys:
+  - 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management'
+  - 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows-server/administration/performance-tuning/subsystem/cache-memory-management/troubleshoot
+  - link: https://www.sans.org/blog/prefetch-analysis-revisited/
+use_cases:
+  - title: "Disable Prefetch"
+    description: "Disables Windows Prefetch to prevent recording of executed applications, hindering forensic analysis."
+    code: |
+      reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" /v "EnablePrefetcher" /t REG_DWORD /d 0 /f
+  - title: "Enable pagefile clearing at shutdown"
+    description: "Forces Windows to clear the pagefile at shutdown, destroying potential evidence in virtual memory."
+    code: |
+      reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v "ClearPageFileAtShutdown" /t REG_DWORD /d 1 /f
+  - title: "Check Prefetch configuration"
+    description: "Query the current Prefetch settings for forensic analysis. Values: 0=disabled, 1=app only, 2=boot only, 3=both."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" /v EnablePrefetcher

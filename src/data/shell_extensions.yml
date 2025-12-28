@@ -1,0 +1,29 @@
+name: "Shell Extensions"
+description: "Registry keys for Windows Shell extensions that load DLLs into Explorer and other shell processes. Can be abused for persistence by registering malicious shell extensions."
+tags:
+  - persistence
+  - defense_evasion
+mitre_ids:
+  - T1546.015
+keys:
+  - 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved'
+  - 'HKCU\Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved'
+  - 'HKCR\*\shellex\ContextMenuHandlers'
+  - 'HKCR\Directory\shellex\ContextMenuHandlers'
+  - 'HKCR\Folder\shellex\ContextMenuHandlers'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/shell/shell-exts
+  - link: https://attack.mitre.org/techniques/T1546/015/
+use_cases:
+  - title: "Register malicious context menu handler"
+    description: "Adds a context menu handler that loads a DLL when right-clicking files."
+    code: |
+      reg add "HKCR\*\shellex\ContextMenuHandlers\MalHandler" /ve /t REG_SZ /d "{malicious-CLSID}" /f
+  - title: "Enumerate approved shell extensions"
+    description: "Lists all approved shell extensions with their GUIDs and descriptions."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved"
+  - title: "Find user-installed shell extensions"
+    description: "Checks for shell extensions installed per-user (less common, more suspicious)."
+    code: |
+      reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved"

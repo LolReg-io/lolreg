@@ -7,7 +7,7 @@ tags:
 mitre_ids:
   - T1546.012
 keys:
-  - "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options"
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options'
 use_cases:
   - title: "Sticky Keys Backdoor"
     description: "Replaces the accessibility feature (sethc.exe) with cmd.exe, allowing system access from the login screen."

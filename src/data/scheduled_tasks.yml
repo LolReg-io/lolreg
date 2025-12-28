@@ -1,0 +1,27 @@
+name: "Scheduled Tasks (TaskCache)"
+description: "Registry keys that store scheduled task metadata. Often abused for persistence as scheduled tasks can execute commands at system boot, user logon, or at specific times."
+tags:
+  - persistence
+  - execution
+mitre_ids:
+  - T1053.005
+keys:
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Boot'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Logon'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page
+use_cases:
+  - title: "Create a persistent scheduled task"
+    description: "Creates a scheduled task that executes a payload at user logon."
+    code: |
+      schtasks /create /tn "WindowsUpdate" /tr "C:\Windows\Temp\payload.exe" /sc onlogon /ru SYSTEM
+  - title: "Create a task running at boot"
+    description: "Creates a scheduled task that runs at system startup with SYSTEM privileges."
+    code: |
+      schtasks /create /tn "SystemMaintenance" /tr "powershell.exe -ep bypass -file C:\Windows\Temp\script.ps1" /sc onstart /ru SYSTEM
+  - title: "Hidden task via direct registry manipulation"
+    description: "Attackers may directly modify TaskCache registry keys to hide tasks from schtasks queries."
+    code: |
+      reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree\HiddenTask" /v "Id" /t REG_SZ /d "{GUID}" /f

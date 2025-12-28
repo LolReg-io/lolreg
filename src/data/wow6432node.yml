@@ -1,0 +1,27 @@
+name: "Wow6432Node (32-bit Redirection)"
+description: "Registry location where 32-bit application keys are stored on 64-bit Windows systems. Attackers abuse this for persistence as security tools may not monitor both 32-bit and 64-bit registry locations equally."
+tags:
+  - persistence
+  - defense_evasion
+mitre_ids:
+  - T1112
+keys:
+  - 'HKLM\SOFTWARE\Wow6432Node'
+  - 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run'
+  - 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/sysinfo/32-bit-and-64-bit-application-data-in-the-registry
+  - link: https://learn.microsoft.com/en-us/windows/win32/winprog64/accessing-an-alternate-registry-view
+use_cases:
+  - title: "32-bit Run key persistence"
+    description: "Adds persistence via the 32-bit Run key, which may be overlooked by 64-bit security tools."
+    code: |
+      reg add "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" /v "Update32" /t REG_SZ /d "C:\Windows\SysWOW64\payload.exe" /f
+  - title: "Cross-architecture enumeration"
+    description: "Query both 64-bit and 32-bit Run keys to ensure complete visibility."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" && reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run"
+  - title: "Force 32-bit registry view"
+    description: "Use reg.exe with /reg:32 flag to explicitly access the 32-bit registry view."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /reg:32

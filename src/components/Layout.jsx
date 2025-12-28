@@ -15,6 +15,12 @@ const Layout = ({ children }) => {
                     </Link>
                     <nav className="flex items-center space-x-6">
                         <Link
+                            to="/tree"
+                            className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                        >
+                            Tree
+                        </Link>
+                        <Link
                             to="/contribute"
                             className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                         >
