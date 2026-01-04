@@ -117,3 +117,10 @@ dist
 
 # Vite
 dist
+
+# PDF and EPUB files
+*.pdf
+*.epub
+
+# Book folder
+book/
