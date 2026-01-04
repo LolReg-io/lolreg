@@ -1,0 +1,26 @@
+name: "ShellBags"
+description: "Registry keys tracking folder access and window positions in Windows Explorer. Records evidence of folder browsing even for deleted folders or removable media. Essential for forensic timeline reconstruction."
+tags:
+  - forensics
+keys:
+  - 'HKCU\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\BagMRU'
+  - 'HKCU\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags'
+  - 'HKCU\SOFTWARE\Microsoft\Windows\Shell\BagMRU'
+  - 'HKCU\SOFTWARE\Microsoft\Windows\Shell\Bags'
+resources:
+  - link: https://www.sans.org/blog/computer-forensic-artifact-shellbags/
+  - link: https://github.com/EricZimmerman/ShellBagsExplorer
+  - link: https://www.youtube.com/13cubed
+use_cases:
+  - title: "View ShellBags folder history"
+    description: "Lists all folders accessed by the user, including those on removable media."
+    code: |
+      reg query "HKCU\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\BagMRU" /s
+  - title: "Analyze Desktop and Network ShellBags"
+    description: "Examines ShellBags for Desktop and Network locations."
+    code: |
+      reg query "HKCU\SOFTWARE\Microsoft\Windows\Shell\BagMRU" /s
+  - title: "Export ShellBags for analysis"
+    description: "Exports ShellBags data for offline analysis with specialized tools."
+    code: |
+      reg export "HKCU\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell" shellbags_export.reg

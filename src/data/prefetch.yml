@@ -1,0 +1,24 @@
+name: "Prefetch Parameters"
+description: "Registry key controlling Windows Prefetch behavior. Prefetch files track application execution and can be valuable forensic artifacts. This key determines if prefetching is enabled."
+tags:
+  - forensics
+  - execution
+keys:
+  - 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows-server/administration/performance-tuning/subsystem/prefetch
+  - link: https://github.com/EricZimmerman/PECmd
+  - link: https://www.youtube.com/13cubed
+use_cases:
+  - title: "Check Prefetch status"
+    description: "Determines if application and boot prefetching is enabled. Values: 0=Disabled, 1=App only, 2=Boot only, 3=Both (default)."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" /v EnablePrefetcher
+  - title: "Enable Prefetch for forensics"
+    description: "Ensures Prefetch is enabled to capture execution artifacts."
+    code: |
+      reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" /v EnablePrefetcher /t REG_DWORD /d 3 /f
+  - title: "Disable Prefetch (anti-forensics)"
+    description: "Disabling Prefetch prevents creation of execution artifacts."
+    code: |
+      reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" /v EnablePrefetcher /t REG_DWORD /d 0 /f

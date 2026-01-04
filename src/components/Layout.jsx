@@ -36,6 +36,12 @@ const Layout = ({ children }) => {
               Tree
             </Link>
             <Link
+              to="/index"
+              className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+            >
+              Index
+            </Link>
+            <Link
               to="/contribute"
               className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
             >

@@ -1,0 +1,29 @@
+name: "Explorer History"
+description: "Registry keys tracking Windows Explorer usage including Run dialog history, search queries, and file open/save dialogs. Valuable for understanding user activity and accessed files."
+tags:
+  - forensics
+keys:
+  - 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU'
+  - 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery'
+  - 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePidlMRU'
+  - 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU'
+resources:
+  - link: https://www.sans.org/blog/opensourcesoftware-windows-forensics/
+  - link: https://www.youtube.com/13cubed
+use_cases:
+  - title: "View Run dialog history"
+    description: "Lists commands entered in the Start > Run dialog (Win+R)."
+    code: |
+      reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU"
+  - title: "View Explorer search history"
+    description: "Lists search terms entered in Windows Explorer. Note: Only available in Windows 11 22H2 / Server 2022 and earlier."
+    code: |
+      reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery"
+  - title: "View Open/Save dialog history"
+    description: "Lists files accessed through Open/Save dialogs, organized by file extension."
+    code: |
+      reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePidlMRU" /s
+  - title: "View applications used to open files"
+    description: "Lists applications used to open or save files via dialogs."
+    code: |
+      reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU"

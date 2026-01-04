@@ -1,0 +1,27 @@
+name: "System Information"
+description: "Registry keys containing essential system configuration including computer name, timezone, and system identifiers. Critical for forensic analysis to establish system context and correlate timestamps."
+tags:
+  - forensics
+  - discovery
+keys:
+  - 'HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation'
+  - 'HKLM\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry-functions
+  - link: https://www.youtube.com/13cubed
+use_cases:
+  - title: "Get system timezone"
+    description: "Retrieves the system timezone for timestamp correlation in forensic analysis."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation"
+  - title: "Get computer name"
+    description: "Retrieves the NetBIOS computer name."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName" /v ComputerName
+  - title: "Get Windows version info"
+    description: "Retrieves Windows version, build number, and installation date."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v ProductName
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuild
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v InstallDate

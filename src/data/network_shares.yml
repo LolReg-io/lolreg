@@ -1,0 +1,25 @@
+name: "Network Shares"
+description: "Registry keys defining network shares on the system. Useful for identifying data exfiltration paths, lateral movement opportunities, and shared resources that may contain sensitive data."
+tags:
+  - forensics
+  - discovery
+  - lateral-movement
+keys:
+  - 'HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Shares'
+  - 'HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Shares\Security'
+resources:
+  - link: https://learn.microsoft.com/en-us/windows-server/storage/file-server/file-server-smb-overview
+  - link: https://www.youtube.com/13cubed
+use_cases:
+  - title: "List all network shares"
+    description: "Enumerates all configured network shares on the system."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Shares"
+  - title: "Get share details"
+    description: "Shows detailed configuration for all shares including paths and permissions."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Shares" /s
+  - title: "Check for hidden shares"
+    description: "Identifies administrative and hidden shares (ending with $)."
+    code: |
+      net share

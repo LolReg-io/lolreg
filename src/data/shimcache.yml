@@ -1,0 +1,25 @@
+name: "Shimcache (AppCompatCache)"
+description: "Registry key storing application compatibility cache data. Can provide evidence of program execution with file paths and last modified timestamps. Prior to Windows 10, InsertFlag could indicate execution."
+tags:
+  - forensics
+  - execution
+keys:
+  - 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatCache'
+resources:
+  - link: https://www.mandiant.com/resources/blog/caching-out-the-val
+  - link: https://github.com/EricZimmerman/AppCompatCacheParser
+  - link: https://www.youtube.com/13cubed
+use_cases:
+  - title: "View Shimcache entries"
+    description: "Displays raw AppCompatCache data (requires parsing for human-readable output)."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatCache"
+  - title: "Export Shimcache for analysis"
+    description: "Exports Shimcache data for offline parsing with specialized tools like AppCompatCacheParser."
+    code: |
+      reg export "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatCache" shimcache.reg
+  - title: "Check execution evidence (Windows 10+)"
+    description: "In Windows 10+, execution may be indicated if the last 4 bytes of a record equal 00 00 00 01."
+    code: |
+      # Use AppCompatCacheParser.exe for proper analysis
+      # AppCompatCacheParser.exe -f SYSTEM --csv output/
