@@ -8,6 +8,9 @@ keys:
   - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkCards'
   - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles'
   - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Unmanaged'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Nla\Cache'
+  - 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\HomeGroup'
   - 'HKLM\SOFTWARE\Microsoft\WZCSVC\Parameters\Interfaces'
 resources:
   - link: https://learn.microsoft.com/en-us/windows-server/networking/technologies/network-subsystem/net-sub-performance-tuning-nics
@@ -25,3 +28,15 @@ use_cases:
     description: "Gets network card descriptions and service names."
     code: |
       reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkCards" /s
+  - title: "Get network signatures (NLA)"
+    description: "Network Location Awareness stores SSID, DefaultGatewayMac, DnsSuffix, and ProfileGuid for each network."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Unmanaged" /s
+  - title: "Determine network type"
+    description: "Network profiles contain DateCreated, DateLastConnected, and network type (0x06=Wired, 0x17=Broadband, 0x47=Wireless)."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles" /s
+  - title: "Check NLA cache"
+    description: "NLA cache contains aggregated network information used by Windows Firewall."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Nla\Cache" /s

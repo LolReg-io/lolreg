@@ -29,13 +29,16 @@ keys:
   - "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
   # List the exact registry paths
 resources:
-  - link: "https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys"
+  - link: https://learn.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys
   # Add links to documentation or articles
 use_cases:
   - title: "Technique Title"
     description: "Description of the specific malicious use case."
     code: |
       reg add "HKCU\Software\..." /v "MaliciousValue" /d "C:\Path\To\Payload.exe" /f
+credits:
+ - link: https://example.com
+  # Add a link to blogpost or media post used to build this file if any
 ```
 
 ## Validation

@@ -9,6 +9,9 @@ keys:
   - 'HKLM\SYSTEM\MountedDevices'
   - 'HKLM\SYSTEM\CurrentControlSet\Control\DeviceClasses'
   - 'HKLM\SOFTWARE\Microsoft\Windows Portable Devices\Devices'
+  - 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\EMDMgmt'
+  - 'HKLM\SYSTEM\CurrentControlSet\Enum\USBSTOR\Ven_Prod_Version\{Serial}\Properties\{83da6326-97a6-4088-9453-a1923f573b29}'
+  - 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Mountpoints2'
 resources:
   - link: https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings
   - link: https://www.sans.org/blog/usb-device-forensics-tracking-connected-usb-devices/
@@ -25,3 +28,19 @@ use_cases:
     description: "Lists drive letters assigned to removable devices."
     code: |
       reg query "HKLM\SYSTEM\MountedDevices"
+  - title: "Get USB timestamps (Win8+)"
+    description: "Properties subkey contains timestamps: 0064=First Install, 0066=Last Connected, 0067=Last Removal."
+    code: |
+      reg query "HKLM\SYSTEM\CurrentControlSet\Enum\USBSTOR" /s | findstr /i "Properties"
+  - title: "Get USB volume serial number"
+    description: "EMDMgmt stores Volume Serial Numbers (in decimal). Only present if system drive is NOT an SSD."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\EMDMgmt" /s
+  - title: "Find USB friendly name"
+    description: "Gets the user-friendly volume name of USB devices."
+    code: |
+      reg query "HKLM\SOFTWARE\Microsoft\Windows Portable Devices\Devices" /s | findstr /i "FriendlyName"
+  - title: "Identify user who mounted USB"
+    description: "Mountpoints2 tracks which user actually mounted a specific USB device using its Volume GUID."
+    code: |
+      reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Mountpoints2" /s
